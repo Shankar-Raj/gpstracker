@@ -76,7 +76,7 @@ public class SessionService {
             System.out.println("⚠️ Logout failed.");
         }
 
-        return response.getStatusCode().toString();
+        return response.getStatusCode().toString()+" ✅ Logged out successfully...";
     }
 
 
