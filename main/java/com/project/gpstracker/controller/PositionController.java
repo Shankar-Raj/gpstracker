@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @RestController
-@RequestMapping("/position")
+@RequestMapping("/positions")
 public class PositionController {
 
     private final PositionService PositionService;

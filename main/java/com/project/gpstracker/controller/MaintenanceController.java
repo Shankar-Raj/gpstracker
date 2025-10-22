@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/maintenance")
+@RequestMapping("/maintenances")
 public class MaintenanceController {
 
     private final MaintenanceService MaintenanceService;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/geofence")
+@RequestMapping("/geofences")
 public class GeofenceController {
 
     private final GeofenceService GeofenceService;

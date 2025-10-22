@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/driver")
+@RequestMapping("/drivers")
 public class DriverController {
 
     private final DriverService DriverService;

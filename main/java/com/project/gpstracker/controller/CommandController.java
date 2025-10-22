@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/command")
+@RequestMapping("/commands")
 public class CommandController {
 
     private final CommandService CommandService;
