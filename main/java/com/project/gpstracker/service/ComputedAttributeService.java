@@ -5,36 +5,22 @@ import com.project.gpstracker.model.ComputedAttribute;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Service
 public class ComputedAttributeService {
 
-    public List<ComputedAttribute> getAllAttributes () {
+    public ComputedAttribute[] getAllAttributes () {
         String endpoint = "/attributes/computed";
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        ComputedAttribute[] ComputedAttributeArray = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute[].class);
-
-        if (ComputedAttributeArray == null) {
-            return null; // Pass null up so controller can detect session expiry
-        }
-
-        return Arrays.asList(ComputedAttributeArray);
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute[].class);
     }
 
     public ComputedAttribute getAttributeById(Long id) {
         String endpoint = "/attributes/computed/"+id;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        ComputedAttribute ComputedAttribute = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute.class);
-
-        if (ComputedAttribute == null)
-            return null; // Pass null up so controller can detect session expiry
-
-        return ComputedAttribute;
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute.class);
     }
 
-    public ComputedAttribute getAttributes (boolean all, int ComputedAttributeId, int deviceId, int groupId, boolean refresh) {
+    public ComputedAttribute[] getAttributes (boolean all, int ComputedAttributeId, int deviceId, int groupId, boolean refresh) {
         String endpoint = "/attributes/computed" +
                 "?all=" + all +
                 "&ComputedAttributeId=" +ComputedAttributeId+
@@ -42,12 +28,7 @@ public class ComputedAttributeService {
                 "&groupId=" + groupId+
                 "&refresh=" + refresh;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        ComputedAttribute ComputedAttribute = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute.class);
-
-        if (ComputedAttribute == null)
-            return null; // Pass null up so controller can detect session expiry
-
-        return ComputedAttribute;
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute[].class);
     }
 
 

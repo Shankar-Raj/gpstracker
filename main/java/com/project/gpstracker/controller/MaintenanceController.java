@@ -2,15 +2,12 @@ package com.project.gpstracker.controller;
 
 import com.project.gpstracker.handlers.ErrorSessionHandler;
 import com.project.gpstracker.model.Maintenance;
-import com.project.gpstracker.model.Maintenance;
 import com.project.gpstracker.service.MaintenanceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/maintenances")
+@RequestMapping("/maintenance")
 public class MaintenanceController {
 
     private final MaintenanceService MaintenanceService;
@@ -21,8 +18,8 @@ public class MaintenanceController {
 
     @GetMapping("all")
     public ResponseEntity<?> getAllMaintenances() {
-         
-        List<Maintenance> Maintenances = MaintenanceService.getAllMaintenances();
+
+        Maintenance[] Maintenances = MaintenanceService.getAllMaintenances();
 
         // If null, it means session expired (RestHandler returned null)
         if (Maintenances == null)
@@ -50,15 +47,14 @@ public class MaintenanceController {
             @PathVariable int userId,
             @PathVariable int deviceId,
             @PathVariable int groupId,
-            @RequestParam (required = false, defaultValue = "true") boolean all,
-            @RequestParam (required = false, defaultValue = "true") boolean refresh) {
-        
-        Maintenance Maintenances = MaintenanceService.getMaintenances( all, userId, deviceId, groupId, refresh);
+            @RequestParam (required = false, defaultValue = "false") boolean all,
+            @RequestParam (required = false, defaultValue = "false") boolean refresh) {
+
+        Maintenance[] Maintenances = MaintenanceService.getMaintenances( all, userId, deviceId, groupId, refresh);
 
         // If null, it means session expired (RestHandler returned null)
-        if (Maintenances == null) {
+        if (Maintenances == null)
             return ErrorSessionHandler.sessionExpired();
-        }
 
         return ResponseEntity.ok(Maintenances);
     }

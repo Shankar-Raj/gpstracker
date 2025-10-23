@@ -5,12 +5,10 @@ import com.project.gpstracker.model.reports.EventReport;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class EventReportServices {
 
-    public List<EventReport> getReport(Long deviceId, Long groupId, String from, String to) {
+    public EventReport[] getReport(Long deviceId, Long groupId, String from, String to) {
 
         String endpoint = "/reports/events" +
                 "?deviceId=" + deviceId +
@@ -19,6 +17,6 @@ public class EventReportServices {
                 "&to=" + to;
 
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return List.of(RestHandler.sendRequest(endpoint, HttpMethod.GET, null, EventReport[].class));
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, EventReport[].class);
     }
 }

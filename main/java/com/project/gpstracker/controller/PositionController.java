@@ -21,8 +21,8 @@ public class PositionController {
 
     @GetMapping("all")
     public ResponseEntity<?> getAllPositions() {
-         
-        List<Position> Positions = PositionService.getAllPositions();
+
+        Position[] Positions = PositionService.getAllPositions();
 
         // If null, it means session expired (RestHandler returned null)
         if (Positions == null)
@@ -43,13 +43,12 @@ public class PositionController {
             From = today.atStartOfDay().toString() + "Z"; // e.g. 2025-10-13T00:00:00Z
             To = today.atTime(23, 59, 59).toString() + "Z"; // e.g. 2025-10-13T23:59:59Z
         }
-        
-        Position Positions = PositionService.getPositions(deviceId, id, From, To);
+
+        Position[] Positions = PositionService.getPositions(deviceId, id, From, To);
 
         // If null, it means session expired (RestHandler returned null)
-        if (Positions == null) {
+        if (Positions == null)
             return ErrorSessionHandler.sessionExpired();
-        }
 
         return ResponseEntity.ok(Positions);
     }

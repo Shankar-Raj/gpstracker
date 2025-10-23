@@ -11,15 +11,13 @@ import org.springframework.web.client.RestTemplate;
 public class SessionService {
 
     private static String URL = "http://118.91.235.67:8082/api";
-    private static String USERNAME = "support@abtbizsol.com";
-    private static String PASSWORD = "Abt@1230";
 
     private static final RestTemplate restTemplate = new RestTemplate();
     private static String sessionCookie = null; // store JSESSIONID
 
     // Login once and store session cookie
 
-    public static Session login() {
+    public static Session login(String username, String password) {
 
         String url = URL + "/session";
 
@@ -27,8 +25,8 @@ public class SessionService {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("email", USERNAME);
-        formData.add("password", PASSWORD);
+        formData.add("email", username);
+        formData.add("password", password);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formData, headers);
 
@@ -96,12 +94,5 @@ public class SessionService {
 
     public static String getUrl() { return URL; }
     public void setUrl(String URL) { SessionService.URL = URL; }
-
-    public static String getUsername() { return USERNAME; }
-    public void setUsername(String USERNAME) { SessionService.USERNAME = USERNAME; }
-
-    public static String getPassword() { return PASSWORD; }
-    public void setPassword(String PASSWORD) { SessionService.PASSWORD = PASSWORD; }
-
     public static String getSessionCookie() { return sessionCookie; }
 }

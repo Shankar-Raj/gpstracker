@@ -22,9 +22,8 @@ public class ServerInfoController {
         ServerInfo ServerInfos = ServerInfoService.getServerDetails();
 
         // If null, it means session expired (RestHandler returned null)
-        if (ServerInfos == null) {
+        if (ServerInfos == null)
             return ErrorSessionHandler.sessionExpired();
-        }
 
         return ResponseEntity.ok(ServerInfos);
     }

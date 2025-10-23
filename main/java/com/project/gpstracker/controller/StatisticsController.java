@@ -31,7 +31,7 @@ public class StatisticsController {
             to = today.atTime(23, 59, 59).toString() + "Z";
         }
 
-        List<Statistics> stats = StatisticsService.getStatistics(from, to);
+        Statistics[] stats = StatisticsService.getStatistics(from, to);
 
         // If null, it means session expired (RestHandler returned null)
         if (stats == null)

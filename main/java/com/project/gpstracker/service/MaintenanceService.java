@@ -11,16 +11,10 @@ import java.util.List;
 @Service
 public class MaintenanceService {
 
-    public List<Maintenance> getAllMaintenances () {
+    public Maintenance[] getAllMaintenances () {
         String endpoint = "/maintenance";
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        Maintenance[] MaintenanceArray = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Maintenance[].class);
-
-        if (MaintenanceArray == null) {
-            return null; // Pass null up so controller can detect session expiry
-        }
-
-        return Arrays.asList(MaintenanceArray);
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Maintenance[].class);
 
     }
 
@@ -36,7 +30,7 @@ public class MaintenanceService {
 
     }
 
-    public Maintenance getMaintenances (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
+    public Maintenance[] getMaintenances (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
         String endpoint = "/maintenance" +
                 "?all=" + all +
                 "&userId=" +userId+
@@ -44,12 +38,7 @@ public class MaintenanceService {
                 "&groupId=" + groupId+
                 "&refresh=" + refresh;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        Maintenance Maintenance = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Maintenance.class);
-
-        if (Maintenance == null)
-            return null; // Pass null up so controller can detect session expiry
-
-        return Maintenance;
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Maintenance[].class);
 
     }
 

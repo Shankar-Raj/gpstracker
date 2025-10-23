@@ -2,12 +2,9 @@ package com.project.gpstracker.controller;
 
 import com.project.gpstracker.handlers.ErrorSessionHandler;
 import com.project.gpstracker.model.Notification;
-import com.project.gpstracker.model.Notification;
 import com.project.gpstracker.service.NotificationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/notifications")
@@ -21,8 +18,8 @@ public class NotificationController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllNotifications() {
-         
-        List<Notification> Notifications = NotificationService.getAllNotifications();
+
+        Notification[] Notifications = NotificationService.getAllNotifications();
 
         // If null, it means session expired (RestHandler returned null)
         if (Notifications == null)
@@ -50,15 +47,14 @@ public class NotificationController {
             @PathVariable int userId,
             @PathVariable int deviceId,
             @PathVariable int groupId,
-            @RequestParam (required = false, defaultValue = "true") boolean all,
-            @RequestParam (required = false, defaultValue = "true") boolean refresh) {
-        
-        Notification Notifications = NotificationService.getNotifications( all, userId, deviceId, groupId, refresh);
+            @RequestParam (required = false, defaultValue = "false") boolean all,
+            @RequestParam (required = false, defaultValue = "false") boolean refresh) {
+
+        Notification[] Notifications = NotificationService.getNotifications( all, userId, deviceId, groupId, refresh);
 
         // If null, it means session expired (RestHandler returned null)
-        if (Notifications == null) {
+        if (Notifications == null)
             return ErrorSessionHandler.sessionExpired();
-        }
 
         return ResponseEntity.ok(Notifications);
     }

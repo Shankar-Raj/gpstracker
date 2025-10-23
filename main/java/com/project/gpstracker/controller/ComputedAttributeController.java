@@ -6,8 +6,6 @@ import com.project.gpstracker.service.ComputedAttributeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/computed-attributes")
 public class ComputedAttributeController {
@@ -20,8 +18,8 @@ public class ComputedAttributeController {
 
     @GetMapping("/all")
     public  ResponseEntity<?> getAllAttributes() {
-        
-        List<ComputedAttribute> ComputedAttributes = ComputedAttributeService.getAllAttributes();
+
+        ComputedAttribute[] ComputedAttributes = ComputedAttributeService.getAllAttributes();
 
         // If null, it means session expired (RestHandler returned null)
         if (ComputedAttributes == null) 
@@ -51,8 +49,8 @@ public class ComputedAttributeController {
             @PathVariable int groupId,
             @RequestParam (required = false, defaultValue = "true") boolean all,
             @RequestParam (required = false, defaultValue = "true") boolean refresh) {
-        
-        ComputedAttribute ComputedAttributes = ComputedAttributeService.getAttributes( all, ComputedAttributeId, deviceId, groupId, refresh);
+
+        ComputedAttribute[] ComputedAttributes = ComputedAttributeService.getAttributes( all, ComputedAttributeId, deviceId, groupId, refresh);
 
         // If null, it means session expired (RestHandler returned null)
         if (ComputedAttributes == null) {

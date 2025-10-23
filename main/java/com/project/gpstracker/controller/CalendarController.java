@@ -2,13 +2,9 @@ package com.project.gpstracker.controller;
 
 import com.project.gpstracker.handlers.ErrorSessionHandler;
 import com.project.gpstracker.model.Calendar;
-import com.project.gpstracker.model.Calendar;
-import com.project.gpstracker.model.Calendar;
 import com.project.gpstracker.service.CalendarService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/calendars")
@@ -22,7 +18,7 @@ public class CalendarController {
     
     @GetMapping("/all")
     public ResponseEntity<?> getCalendars() {
-        List<Calendar> Calendars = CalendarService.getCalendars();
+        Calendar[] Calendars = CalendarService.getCalendars();
 
         // If null, it means session expired (RestHandler returned null)
         if (Calendars == null)
@@ -33,7 +29,7 @@ public class CalendarController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCalendar(@PathVariable int id ) {
-        
+
         Calendar Calendars = CalendarService.getCalendarById(id);
 
         // If null, it means session expired (RestHandler returned null)
@@ -44,12 +40,12 @@ public class CalendarController {
         return ResponseEntity.ok(Calendars);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping
     public ResponseEntity<?> getCalendars(
-            @PathVariable int userId,
-            @RequestParam (required = false, defaultValue = "true") boolean all) {
-        
-        Calendar Calendars = CalendarService.getCalendar( all, userId);
+            @RequestParam int userId,
+            @RequestParam (required = false, defaultValue = "false") boolean all) {
+
+        Calendar[] Calendars = CalendarService.getCalendar( all, userId);
 
         // If null, it means session expired (RestHandler returned null)
         if (Calendars == null) {

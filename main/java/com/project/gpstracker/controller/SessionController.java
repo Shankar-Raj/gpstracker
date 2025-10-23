@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping()
 public class SessionController {
 
-    @GetMapping ("/login")
-    public Session login() {
-        return SessionService.login();
+    @GetMapping ("/login/{username}/{password}")
+    public Session login(@PathVariable String username, @PathVariable String password ) {
+        return SessionService.login(username,password);
 
     }
 

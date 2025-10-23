@@ -2,12 +2,9 @@ package com.project.gpstracker.controller;
 
 import com.project.gpstracker.handlers.ErrorSessionHandler;
 import com.project.gpstracker.model.Driver;
-import com.project.gpstracker.model.Driver;
 import com.project.gpstracker.service.DriverService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/drivers")
@@ -21,8 +18,8 @@ public class DriverController {
 
     @GetMapping("all")
     public ResponseEntity<?> getAllDrivers() {
-        
-        List<Driver> Drivers = DriverService.getDrivers();
+
+        Driver[] Drivers = DriverService.getDrivers();
         // If null, it means session expired (RestHandler returned null)
         if (Drivers == null)
             return ErrorSessionHandler.sessionExpired();
@@ -48,15 +45,14 @@ public class DriverController {
             @PathVariable int userId,
             @PathVariable int deviceId,
             @PathVariable int groupId,
-            @RequestParam (required = false, defaultValue = "true") boolean all,
-            @RequestParam (required = false, defaultValue = "true") boolean refresh) {
-         
-        Driver Drivers = DriverService.getDriver( all, userId, deviceId, groupId, refresh);
+            @RequestParam (required = false, defaultValue = "false") boolean all,
+            @RequestParam (required = false, defaultValue = "false") boolean refresh) {
+
+        Driver[] Drivers = DriverService.getDriver( all, userId, deviceId, groupId, refresh);
 
         // If null, it means session expired (RestHandler returned null)
-        if (Drivers == null) {
+        if (Drivers == null)
             return ErrorSessionHandler.sessionExpired();
-        }
 
         return ResponseEntity.ok(Drivers);
         

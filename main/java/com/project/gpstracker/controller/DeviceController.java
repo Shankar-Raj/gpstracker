@@ -6,8 +6,6 @@ import com.project.gpstracker.service.DeviceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/devices")
 public class DeviceController {
@@ -20,8 +18,8 @@ public class DeviceController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllDevices() {
-        
-        List<Device> Devices = DeviceService.getAllDevices();
+
+        Device[] Devices = DeviceService.getAllDevices();
 
         // If null, it means session expired (RestHandler returned null)
         if (Devices == null)
@@ -48,14 +46,13 @@ public class DeviceController {
             @PathVariable int userId,
             @PathVariable int Id,
             @PathVariable int uniqueId,
-            @RequestParam (required = false, defaultValue = "true") boolean all) {
-        
-        Device Devices = DeviceService.getDevice(all, userId, Id, uniqueId);
+            @RequestParam (required = false, defaultValue = "false") boolean all) {
+
+        Device[] Devices = DeviceService.getDevice(all, userId, Id, uniqueId);
 
         // If null, it means session expired (RestHandler returned null)
-        if (Devices == null) {
+        if (Devices == null)
             return ErrorSessionHandler.sessionExpired();
-        }
 
         return ResponseEntity.ok(Devices);
     }

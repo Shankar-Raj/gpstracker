@@ -5,22 +5,13 @@ import com.project.gpstracker.model.Notification;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Service
 public class NotificationService {
 
-    public List<Notification> getAllNotifications () {
+    public Notification[] getAllNotifications () {
         String endpoint = "/notifications";
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        Notification[] NotificationArray = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Notification[].class);
-
-        if (NotificationArray == null) {
-            return null; // Pass null up so controller can detect session expiry
-        }
-
-        return Arrays.asList(NotificationArray);
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Notification[].class);
 
     }
 
@@ -36,7 +27,7 @@ public class NotificationService {
 
     }
 
-    public Notification getNotifications (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
+    public Notification[] getNotifications (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
         String endpoint = "/notifications" +
                 "?all=" + all +
                 "&userId=" +userId+
@@ -44,12 +35,7 @@ public class NotificationService {
                 "&groupId=" + groupId+
                 "&refresh=" + refresh;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        Notification Notification = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Notification.class);
-
-        if (Notification == null)
-            return null; // Pass null up so controller can detect session expiry
-
-        return Notification;
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Notification[].class);
 
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class TripReportService {
 
-    public List<TripReport> getReport(Long deviceId, Long groupId, String from, String to) {
+    public TripReport[] getReport(Long deviceId, Long groupId, String from, String to) {
 
         String endpoint = "/reports/trips" +
                 "?deviceId=" + deviceId +
@@ -19,6 +19,6 @@ public class TripReportService {
                 "&to=" + to;
 
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return List.of(RestHandler.sendRequest(endpoint, HttpMethod.GET, null, TripReport[].class));
+        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, TripReport[].class);
     }
 }

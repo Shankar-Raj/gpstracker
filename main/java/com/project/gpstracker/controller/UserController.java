@@ -6,8 +6,6 @@ import com.project.gpstracker.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -20,7 +18,7 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
-        List<User> Users = UserService.getUsers();
+        User[] Users = UserService.getUsers();
 
         // If null, it means session expired (RestHandler returned null)
         if (Users == null)
@@ -29,15 +27,15 @@ public class UserController {
         return ResponseEntity.ok(Users);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUser(@PathVariable int id) {
-        User Users = UserService.getUser(id);
+    @GetMapping("/{Id}")
+    public ResponseEntity<?> getUser(@PathVariable int Id) {
+        User User = UserService.getUser(Id);
 
         // If null, it means session expired (RestHandler returned null)
-        if (Users == null)
+        if (User == null)
             return ErrorSessionHandler.sessionExpired();
 
-        return ResponseEntity.ok(Users);
+        return ResponseEntity.ok(User);
     }
 
 }

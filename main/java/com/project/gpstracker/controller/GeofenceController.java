@@ -2,12 +2,9 @@ package com.project.gpstracker.controller;
 
 import com.project.gpstracker.handlers.ErrorSessionHandler;
 import com.project.gpstracker.model.Geofence;
-import com.project.gpstracker.model.Geofence;
 import com.project.gpstracker.service.GeofenceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/geofences")
@@ -21,8 +18,8 @@ public class GeofenceController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllGeofence() {
-         
-        String Geofence = GeofenceService.getAllGeofence();
+
+        Geofence[] Geofence = GeofenceService.getAllGeofence();
 
         // If null, it means session expired (RestHandler returned null)
         if (Geofence == null)
@@ -34,7 +31,7 @@ public class GeofenceController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getGeofenceById(@PathVariable Long id) {
          
-        String Geofence = GeofenceService.getGeofenceById(id);
+        Geofence Geofence = GeofenceService.getGeofenceById(id);
 
         // If null, it means session expired (RestHandler returned null)
         if (Geofence == null) {
@@ -50,15 +47,14 @@ public class GeofenceController {
             @PathVariable int userId,
             @PathVariable int deviceId,
             @PathVariable int groupId,
-            @RequestParam (required = false, defaultValue = "true") boolean all,
-            @RequestParam (required = false, defaultValue = "true") boolean refresh) {
-         
-        String Geofence = GeofenceService.getGeofence( all, userId, deviceId, groupId, refresh);
+            @RequestParam (required = false, defaultValue = "false") boolean all,
+            @RequestParam (required = false, defaultValue = "false") boolean refresh) {
+
+        Geofence[] Geofence = GeofenceService.getGeofence( all, userId, deviceId, groupId, refresh);
 
         // If null, it means session expired (RestHandler returned null)
-        if (Geofence == null) {
+        if (Geofence == null)
             return ErrorSessionHandler.sessionExpired();
-        }
 
         return ResponseEntity.ok(Geofence);
     }

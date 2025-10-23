@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/reports")
@@ -29,7 +28,7 @@ public class ReportController {
 
 
     @GetMapping("/route/{deviceId}/{groupId}")
-    public List<RouteReport> getRouteReport(
+    public RouteReport[] getRouteReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -45,7 +44,7 @@ public class ReportController {
     }
 
     @GetMapping("/trips/{deviceId}/{groupId}")
-    public List<TripReport> getTripReport(
+    public TripReport[] getTripReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -61,7 +60,7 @@ public class ReportController {
     }
 
     @GetMapping("/stops/{deviceId}/{groupId}")
-    public List<StopReport> getStopsReport(
+    public StopReport[] getStopsReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -77,7 +76,7 @@ public class ReportController {
     }
 
     @GetMapping("/events/{deviceId}/{groupId}")
-    public List<EventReport> getEventReport(
+    public EventReport[] getEventReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -93,7 +92,7 @@ public class ReportController {
     }
 
     @GetMapping("/summary/{deviceId}/{groupId}")
-    public List<TripSummaryReport> getSummaryReport(
+    public TripSummaryReport[] getSummaryReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
