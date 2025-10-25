@@ -1,16 +1,17 @@
 package com.project.gpstracker.service;
 
 import com.project.gpstracker.handlers.RestHandler;
-import com.project.gpstracker.model.Event;
+
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EventService {
 
-    public Event getEvent(long id) {
+    public ResponseEntity<?> getEvent(long id) {
         String endpoint = "/events/"+id;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Event.class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object.class);
     }
 }

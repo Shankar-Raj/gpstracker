@@ -1,8 +1,8 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.ErrorSessionHandler;
-import com.project.gpstracker.model.Position;
 import com.project.gpstracker.service.PositionService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +13,13 @@ import java.util.*;
 @RequestMapping("/positions")
 public class PositionController {
 
-    private final PositionService PositionService;
-
-    public PositionController(PositionService PositionService) {
-        this.PositionService = PositionService;
-    }
+    @Autowired
+    private PositionService PositionService;
 
     @GetMapping("all")
     public ResponseEntity<?> getAllPositions() {
 
-        Position[] Positions = PositionService.getAllPositions();
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Positions == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Positions = PositionService.getAllPositions();
         return ResponseEntity.ok(Positions);
     }
 
@@ -44,12 +36,7 @@ public class PositionController {
             To = today.atTime(23, 59, 59).toString() + "Z"; // e.g. 2025-10-13T23:59:59Z
         }
 
-        Position[] Positions = PositionService.getPositions(deviceId, id, From, To);
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Positions == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Positions = PositionService.getPositions(deviceId, id, From, To);
         return ResponseEntity.ok(Positions);
     }
 

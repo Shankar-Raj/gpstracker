@@ -1,8 +1,8 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.ErrorSessionHandler;
-import com.project.gpstracker.model.Device;
 import com.project.gpstracker.service.DeviceService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,34 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/devices")
 public class DeviceController {
 
-    private final DeviceService DeviceService;
-
-    public DeviceController(DeviceService DeviceService) {
-        this.DeviceService = DeviceService;
-    }
+    @Autowired
+    private DeviceService DeviceService;
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllDevices() {
 
-        Device[] Devices = DeviceService.getAllDevices();
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Devices == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Devices = DeviceService.getAllDevices();
         return ResponseEntity.ok(Devices);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getDeviceById(@PathVariable Long id) {
-        
-        Device Devices = DeviceService.getDeviceById(id);
 
-        // If null, it means session expired (RestHandler returned null)
-        if (Devices == null) {
-            return ErrorSessionHandler.sessionExpired();
-        }
-
+        ResponseEntity<?> Devices = DeviceService.getDeviceById(id);
         return ResponseEntity.ok(Devices);
     }
 
@@ -48,12 +34,7 @@ public class DeviceController {
             @PathVariable int uniqueId,
             @RequestParam (required = false, defaultValue = "false") boolean all) {
 
-        Device[] Devices = DeviceService.getDevice(all, userId, Id, uniqueId);
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Devices == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Devices = DeviceService.getDevice(all, userId, Id, uniqueId);
         return ResponseEntity.ok(Devices);
     }
 }

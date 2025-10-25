@@ -1,8 +1,8 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.ErrorSessionHandler;
-import com.project.gpstracker.model.Group;
 import com.project.gpstracker.service.GroupService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,34 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/groups")
 public class GroupController {
 
-    private final GroupService GroupService;
-
-    public GroupController(GroupService GroupService) {
-        this.GroupService = GroupService;
-    }
+    @Autowired
+    private GroupService GroupService;
 
     @GetMapping("all")
     public ResponseEntity<?> getAllGroups() {
 
-        Group[] Groups = GroupService.getAllGroups();
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Groups == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Groups = GroupService.getAllGroups();
         return ResponseEntity.ok(Groups);
     }
 
     @GetMapping("/{Id}")
     public ResponseEntity<?> getGroupById(@PathVariable int Id) {
 
-        Group Group = GroupService.getGroupById(Id);
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Group == null) {
-            return ErrorSessionHandler.sessionExpired();
-        }
-
+        ResponseEntity<?> Group = GroupService.getGroupById(Id);
         return ResponseEntity.ok(Group);
     }
 
@@ -46,13 +32,7 @@ public class GroupController {
             @RequestParam int userId,
             @RequestParam (required = false, defaultValue = "false") boolean all) {
 
-        Group[] Groups = GroupService.getGroups( all, userId );
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Groups == null) {
-            return ErrorSessionHandler.sessionExpired();
-        }
-
+        ResponseEntity<?> Groups = GroupService.getGroups( all, userId );
         return ResponseEntity.ok(Groups);
     }
 }

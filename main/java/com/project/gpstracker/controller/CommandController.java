@@ -1,8 +1,8 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.ErrorSessionHandler;
-import com.project.gpstracker.model.Command;
 import com.project.gpstracker.service.CommandService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,33 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/commands")
 public class CommandController {
 
-    private final CommandService CommandService;
+    @Autowired
+    private CommandService CommandService;
 
-    public CommandController(CommandService CommandService) {
-        this.CommandService = CommandService;
-    }
     @GetMapping("/all")
     public ResponseEntity<?> getAllCommands () {
 
-        Command[] Commands = CommandService.getAllCommands();
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Commands == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Commands = CommandService.getAllCommands();
         return ResponseEntity.ok(Commands);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCommandById(@PathVariable int id) {
-        
-        Command Commands = CommandService.getCommandById(id);
 
-        // If null, it means session expired (RestHandler returned null)
-        if (Commands == null) {
-            return ErrorSessionHandler.sessionExpired();
-        }
-
+        ResponseEntity<?> Commands = CommandService.getCommandById(id);
         return ResponseEntity.ok(Commands);
     }
 
@@ -49,12 +36,7 @@ public class CommandController {
             @RequestParam (required = false, defaultValue = "false") boolean all,
             @RequestParam (required = false, defaultValue = "false") boolean refresh) {
 
-        Command[] Commands = CommandService.getCommands( all, userId, deviceId, groupId, refresh);
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Commands == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Commands = CommandService.getCommands( all, userId, deviceId, groupId, refresh);
         return ResponseEntity.ok(Commands);
     }
 }

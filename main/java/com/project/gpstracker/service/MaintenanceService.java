@@ -1,36 +1,29 @@
 package com.project.gpstracker.service;
 
 import com.project.gpstracker.handlers.RestHandler;
-import com.project.gpstracker.model.Maintenance;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MaintenanceService {
 
-    public Maintenance[] getAllMaintenances () {
+    public ResponseEntity<?> getAllMaintenances () {
         String endpoint = "/maintenance";
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Maintenance[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
 
     }
 
-    public Maintenance getMaintenanceById(Long id) {
+    public ResponseEntity<?> getMaintenanceById(Long id) {
         String endpoint = "/maintenance/"+id;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        Maintenance Maintenance = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Maintenance.class);
-
-        if (Maintenance == null)
-            return null; // Pass null up so controller can detect session expiry
-
-        return Maintenance;
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object.class);
 
     }
 
-    public Maintenance[] getMaintenances (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
+    public ResponseEntity<?> getMaintenances (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
         String endpoint = "/maintenance" +
                 "?all=" + all +
                 "&userId=" +userId+
@@ -38,7 +31,7 @@ public class MaintenanceService {
                 "&groupId=" + groupId+
                 "&refresh=" + refresh;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Maintenance[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
 
     }
 

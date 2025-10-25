@@ -1,6 +1,5 @@
 package com.project.gpstracker.service;
 
-import com.project.gpstracker.model.Session;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,7 +16,7 @@ public class SessionService {
 
     // Login once and store session cookie
 
-    public static Session login(String username, String password) {
+    public static ResponseEntity<?> login(String username, String password) {
 
         String url = URL + "/session";
 
@@ -30,21 +29,21 @@ public class SessionService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formData, headers);
 
-        ResponseEntity<Session> response = restTemplate.postForEntity(url, request, Session.class);
+        ResponseEntity<Object> response = restTemplate.postForEntity(url, request, Object.class);
 
         // Extract and store session cookie
         HttpHeaders responseHeaders = response.getHeaders();
         if (responseHeaders.containsKey(HttpHeaders.SET_COOKIE)) {
             sessionCookie = responseHeaders.getFirst(HttpHeaders.SET_COOKIE);
-            System.out.println("✅ Logged in successfully. Session: " + sessionCookie);
+            System.out.println("✅ Logged in successfully. SessionCookie : " + sessionCookie);
         } else {
             throw new RuntimeException("⚠️ Login failed. No session cookie received.");
         }
 
-        return response.getBody();
+        return response;
     }
 
-    public static String logout() {
+    public static ResponseEntity<?> logout() {
 
         String url = URL + "/session";
 
@@ -56,15 +55,10 @@ public class SessionService {
         }
 
         // Build the request entity (without body for DELETE)
-        HttpEntity<String> request = new HttpEntity<>(headers);
+        HttpEntity<Object> request = new HttpEntity<>(headers);
 
         // Perform DELETE call
-        ResponseEntity<String> response = restTemplate.exchange(
-                url,
-                HttpMethod.DELETE,
-                request,
-                String.class
-        );
+        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.DELETE, request, Object.class);
 
         // Clear stored session
         if (response.getStatusCode().is2xxSuccessful()) {
@@ -74,7 +68,7 @@ public class SessionService {
             System.out.println("⚠️ Logout failed.");
         }
 
-        return response.getStatusCode().toString()+" ✅ Logged out successfully...";
+        return response;
     }
 
 

@@ -1,8 +1,8 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.ErrorSessionHandler;
-import com.project.gpstracker.model.Event;
 import com.project.gpstracker.service.EventService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,21 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/events")
 public class EventController {
 
-    private final EventService EventService;
-
-    public EventController(EventService EventService) {
-        this.EventService = EventService;
-    }
+    @Autowired
+    private EventService EventService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEvent(@PathVariable Long id) {
-         
-        Event Events = EventService.getEvent(id);
 
-        // If null, it means session expired (RestHandler returned null)
-        if (Events == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Events = EventService.getEvent(id);
         return ResponseEntity.ok(Events);
     }
 

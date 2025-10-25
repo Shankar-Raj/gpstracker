@@ -1,7 +1,7 @@
 package com.project.gpstracker.service;
 
 import com.project.gpstracker.handlers.RestHandler;
-import com.project.gpstracker.model.Calendar;
+
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
@@ -9,26 +9,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalendarService {
 
-    public Calendar[] getCalendars() {
+    public ResponseEntity<?> getCalendars() {
         String endpoint = "/calendars";
         // Parameters (Tag, RestMethod, Object Body, Response type
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Calendar[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
 
     }
 
-    public Calendar getCalendarById( int id ) {
+    public ResponseEntity<?> getCalendarById( int id ) {
         String endpoint = "/calendars/"+id;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Calendar.class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object.class);
 
     }
 
-    public Calendar[] getCalendar (boolean all, int userId) {
+    public ResponseEntity<?> getCalendar (boolean all, int userId) {
         String endpoint = "/calendars" +
                 "?all=" + all +
                 "&userId=" +userId;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Calendar[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
     }
 
 }

@@ -1,14 +1,14 @@
 package com.project.gpstracker.service.ReportServices;
 
 import com.project.gpstracker.handlers.RestHandler;
-import com.project.gpstracker.model.reports.TripSummaryReport;
+
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TripSummaryReportService {
 
-    public TripSummaryReport[] getReport(Long deviceId, Long groupId, String from, String to) {
+    public ResponseEntity<?> getReport(Long deviceId, Long groupId, String from, String to) {
 
         String endpoint = "/reports/summary" +
                 "?deviceId=" + deviceId +
@@ -17,6 +17,6 @@ public class TripSummaryReportService {
                 "&to=" + to;
 
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, TripSummaryReport[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
     }
 }

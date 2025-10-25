@@ -1,8 +1,8 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.ErrorSessionHandler;
-import com.project.gpstracker.model.ComputedAttribute;
 import com.project.gpstracker.service.ComputedAttributeService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,34 +10,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/computed-attributes")
 public class ComputedAttributeController {
 
-    private final ComputedAttributeService ComputedAttributeService;
-
-    public ComputedAttributeController(ComputedAttributeService ComputedAttributeService) {
-        this.ComputedAttributeService = ComputedAttributeService;
-    }
+    @Autowired
+    private ComputedAttributeService ComputedAttributeService;
 
     @GetMapping("/all")
     public  ResponseEntity<?> getAllAttributes() {
 
-        ComputedAttribute[] ComputedAttributes = ComputedAttributeService.getAllAttributes();
-
-        // If null, it means session expired (RestHandler returned null)
-        if (ComputedAttributes == null) 
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> ComputedAttributes = ComputedAttributeService.getAllAttributes();
         return ResponseEntity.ok(ComputedAttributes);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAttributeById(@PathVariable Long id) {
-        
-        ComputedAttribute ComputedAttributes = ComputedAttributeService.getAttributeById(id);
 
-        // If null, it means session expired (RestHandler returned null)
-        if (ComputedAttributes == null) {
-            return ErrorSessionHandler.sessionExpired();
-        }
-
+        ResponseEntity<?> ComputedAttributes = ComputedAttributeService.getAttributeById(id);
         return ResponseEntity.ok(ComputedAttributes);
     }
 
@@ -50,13 +36,7 @@ public class ComputedAttributeController {
             @RequestParam (required = false, defaultValue = "true") boolean all,
             @RequestParam (required = false, defaultValue = "true") boolean refresh) {
 
-        ComputedAttribute[] ComputedAttributes = ComputedAttributeService.getAttributes( all, ComputedAttributeId, deviceId, groupId, refresh);
-
-        // If null, it means session expired (RestHandler returned null)
-        if (ComputedAttributes == null) {
-            return ErrorSessionHandler.sessionExpired();
-        }
-
+        ResponseEntity<?> ComputedAttributes = ComputedAttributeService.getAttributes( all, ComputedAttributeId, deviceId, groupId, refresh);
         return ResponseEntity.ok(ComputedAttributes);
     }
 }

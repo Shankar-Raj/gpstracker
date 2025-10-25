@@ -1,26 +1,27 @@
 package com.project.gpstracker.service;
 
 import com.project.gpstracker.handlers.RestHandler;
-import com.project.gpstracker.model.ComputedAttribute;
+
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ComputedAttributeService {
 
-    public ComputedAttribute[] getAllAttributes () {
+    public ResponseEntity<?> getAllAttributes () {
         String endpoint = "/attributes/computed";
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
     }
 
-    public ComputedAttribute getAttributeById(Long id) {
+    public ResponseEntity<?> getAttributeById(Long id) {
         String endpoint = "/attributes/computed/"+id;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute.class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object.class);
     }
 
-    public ComputedAttribute[] getAttributes (boolean all, int ComputedAttributeId, int deviceId, int groupId, boolean refresh) {
+    public ResponseEntity<?> getAttributes (boolean all, int ComputedAttributeId, int deviceId, int groupId, boolean refresh) {
         String endpoint = "/attributes/computed" +
                 "?all=" + all +
                 "&ComputedAttributeId=" +ComputedAttributeId+
@@ -28,7 +29,7 @@ public class ComputedAttributeService {
                 "&groupId=" + groupId+
                 "&refresh=" + refresh;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, ComputedAttribute[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
     }
 
 

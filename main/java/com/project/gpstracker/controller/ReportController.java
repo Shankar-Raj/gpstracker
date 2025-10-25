@@ -2,7 +2,9 @@ package com.project.gpstracker.controller;
 
 import com.project.gpstracker.model.reports.*;
 import com.project.gpstracker.service.ReportServices.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -28,7 +30,7 @@ public class ReportController {
 
 
     @GetMapping("/route/{deviceId}/{groupId}")
-    public RouteReport[] getRouteReport(
+    public ResponseEntity<?> getRouteReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -44,7 +46,7 @@ public class ReportController {
     }
 
     @GetMapping("/trips/{deviceId}/{groupId}")
-    public TripReport[] getTripReport(
+    public ResponseEntity<?> getTripReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -60,7 +62,7 @@ public class ReportController {
     }
 
     @GetMapping("/stops/{deviceId}/{groupId}")
-    public StopReport[] getStopsReport(
+    public ResponseEntity<?> getStopsReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -76,7 +78,7 @@ public class ReportController {
     }
 
     @GetMapping("/events/{deviceId}/{groupId}")
-    public EventReport[] getEventReport(
+    public ResponseEntity<?> getEventReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,
@@ -92,7 +94,7 @@ public class ReportController {
     }
 
     @GetMapping("/summary/{deviceId}/{groupId}")
-    public TripSummaryReport[] getSummaryReport(
+    public ResponseEntity<?> getSummaryReport(
             @PathVariable Long deviceId,
             @PathVariable Long groupId,
             @RequestParam(required = false) String from,

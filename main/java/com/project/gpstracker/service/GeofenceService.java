@@ -1,34 +1,27 @@
 package com.project.gpstracker.service;
 
 import com.project.gpstracker.handlers.RestHandler;
-import com.project.gpstracker.model.Geofence;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 @Service
 public class GeofenceService {
 
-    public Geofence[] getAllGeofence () {
+    public ResponseEntity<?> getAllGeofence () {
         String endpoint = "/geofences";
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Geofence[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
     }
 
-    public Geofence getGeofenceById(Long id) {
+    public ResponseEntity<?> getGeofenceById(Long id) {
         String endpoint = "/geofences/"+id;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        Geofence Geofence = RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Geofence.class);
-
-        if (Geofence == null)
-            return null; // Pass null up so controller can detect session expiry
-
-        return Geofence;
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object.class);
     }
 
-    public Geofence[] getGeofence (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
+    public ResponseEntity<?> getGeofence (boolean all, int userId, int deviceId, int groupId, boolean refresh) {
         String endpoint = "/geofences" +
                 "?all=" + all +
                 "&userId=" +userId+
@@ -36,7 +29,7 @@ public class GeofenceService {
                 "&groupId=" + groupId+
                 "&refresh=" + refresh;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
-        return RestHandler.sendRequest(endpoint, HttpMethod.GET, null, Geofence[].class);
+        return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object[].class);
     }
 
 }

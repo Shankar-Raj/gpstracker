@@ -1,8 +1,9 @@
 package com.project.gpstracker.controller;
 
 import com.project.gpstracker.handlers.ErrorSessionHandler;
-import com.project.gpstracker.model.Geofence;
 import com.project.gpstracker.service.GeofenceService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,34 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/geofences")
 public class GeofenceController {
 
-    private final GeofenceService GeofenceService;
-
-    public GeofenceController(GeofenceService GeofenceService) {
-        this.GeofenceService = GeofenceService;
-    }
+    @Autowired
+    private GeofenceService GeofenceService;
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllGeofence() {
 
-        Geofence[] Geofence = GeofenceService.getAllGeofence();
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Geofence == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Geofence = GeofenceService.getAllGeofence();
         return ResponseEntity.ok(Geofence);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getGeofenceById(@PathVariable Long id) {
-         
-        Geofence Geofence = GeofenceService.getGeofenceById(id);
 
-        // If null, it means session expired (RestHandler returned null)
-        if (Geofence == null) {
-            return ErrorSessionHandler.sessionExpired();
-        }
-
+        ResponseEntity<?> Geofence = GeofenceService.getGeofenceById(id);
         return ResponseEntity.ok(Geofence);
         
     }
@@ -50,12 +37,7 @@ public class GeofenceController {
             @RequestParam (required = false, defaultValue = "false") boolean all,
             @RequestParam (required = false, defaultValue = "false") boolean refresh) {
 
-        Geofence[] Geofence = GeofenceService.getGeofence( all, userId, deviceId, groupId, refresh);
-
-        // If null, it means session expired (RestHandler returned null)
-        if (Geofence == null)
-            return ErrorSessionHandler.sessionExpired();
-
+        ResponseEntity<?> Geofence = GeofenceService.getGeofence( all, userId, deviceId, groupId, refresh);
         return ResponseEntity.ok(Geofence);
     }
 }
