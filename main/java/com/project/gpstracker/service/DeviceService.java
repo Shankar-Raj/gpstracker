@@ -16,7 +16,7 @@ public class DeviceService {
     }
 
     public ResponseEntity<?> getDeviceById(long id) {
-        String endpoint = "/devics/"+id;
+        String endpoint = "/devices/"+id;
         // Parameters (Tag+Parameter, RestMethod, Object Body, Response type)
         return RestHandler.SendRequest(endpoint, HttpMethod.GET, null, Object.class);
     }

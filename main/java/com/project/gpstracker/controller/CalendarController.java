@@ -21,7 +21,6 @@ public class CalendarController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCalendar(@PathVariable int id ) {
-
         ResponseEntity<?> Calendars = CalendarService.getCalendarById(id);
         return ResponseEntity.ok(Calendars);
     }

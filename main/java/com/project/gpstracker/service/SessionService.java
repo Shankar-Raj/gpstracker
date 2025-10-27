@@ -1,92 +1,60 @@
 package com.project.gpstracker.service;
 
+import com.project.gpstracker.handlers.RestHandler;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class SessionService {
 
-    private static String URL = "http://118.91.235.67:8082/api";
-
-    private static final RestTemplate restTemplate = new RestTemplate();
-    private static String sessionCookie = null; // store JSESSIONID
+    private static final String endpoint = "/session";
+    private static volatile String sessionCookie = null; // Thread-safe shared variable
 
     // Login once and store session cookie
-
     public static ResponseEntity<?> login(String username, String password) {
-
-        String url = URL + "/session";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("email", username);
         formData.add("password", password);
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formData, headers);
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<>(formData, RestHandler.createHeaders(true));
 
-        ResponseEntity<Object> response = restTemplate.postForEntity(url, request, Object.class);
+        ResponseEntity<?> response = RestHandler.SendRequest(endpoint, HttpMethod.POST, body, Object.class);
 
-        // Extract and store session cookie
-        HttpHeaders responseHeaders = response.getHeaders();
-        if (responseHeaders.containsKey(HttpHeaders.SET_COOKIE)) {
-            sessionCookie = responseHeaders.getFirst(HttpHeaders.SET_COOKIE);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            synchronized (RestHandler.getLock()) { // Ensures only one thread modifies sessionCookie at a time
+                sessionCookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
+            }
             System.out.println("✅ Logged in successfully. SessionCookie : " + sessionCookie);
-        } else {
-            throw new RuntimeException("⚠️ Login failed. No session cookie received.");
         }
 
         return response;
     }
 
+    // Logout and clear cookie safely
     public static ResponseEntity<?> logout() {
 
-        String url = URL + "/session";
+        HttpEntity<Object> body = new HttpEntity<>(RestHandler.createHeaders(true));
 
-        // Create headers with stored cookie
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        if (sessionCookie != null) {
-            headers.set("Cookie", sessionCookie);
-        }
+        ResponseEntity<?> response = RestHandler.SendRequest(endpoint, HttpMethod.DELETE, body, Object.class);
 
-        // Build the request entity (without body for DELETE)
-        HttpEntity<Object> request = new HttpEntity<>(headers);
-
-        // Perform DELETE call
-        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.DELETE, request, Object.class);
-
-        // Clear stored session
         if (response.getStatusCode().is2xxSuccessful()) {
-            sessionCookie = null;
+            synchronized (RestHandler.getLock()) { // Thread-safe clearing
+                sessionCookie = null;
+            }
             System.out.println("✅ Logged out successfully. Session cleared.");
-        } else {
-            System.out.println("⚠️ Logout failed.");
         }
 
         return response;
     }
 
-
-    // Create headers with stored session cookie
-
-    public static HttpHeaders createHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        if (sessionCookie != null) {
-            headers.set("Cookie", sessionCookie);
+    // Thread-safe getter for cookie (if needed)
+    public static String getSessionCookie() {
+        synchronized (RestHandler.getLock()) {
+            return sessionCookie;
         }
-        return headers;
     }
 
-    public static void loginWithCookie( String token) {
-    }
-
-    public static String getUrl() { return URL; }
-    public void setUrl(String URL) { SessionService.URL = URL; }
-    public static String getSessionCookie() { return sessionCookie; }
 }

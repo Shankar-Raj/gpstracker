@@ -15,14 +15,11 @@ public class DeviceController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllDevices() {
-
-        ResponseEntity<?> Devices = DeviceService.getAllDevices();
-        return ResponseEntity.ok(Devices);
+        return ResponseEntity.ok(DeviceService.getAllDevices());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getDeviceById(@PathVariable Long id) {
-
         ResponseEntity<?> Devices = DeviceService.getDeviceById(id);
         return ResponseEntity.ok(Devices);
     }
