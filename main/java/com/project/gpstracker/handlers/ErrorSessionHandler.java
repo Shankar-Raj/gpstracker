@@ -10,7 +10,7 @@ public class ErrorSessionHandler {
 
     // For Session Expiry
     public static ResponseEntity<?> SessionExpired() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Session error", "⚠️ Session expired. Please re-login at http://localhost:8080/login"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Session error", "⚠️ Unauthorized "));
     }
 
     // For Bad Requests

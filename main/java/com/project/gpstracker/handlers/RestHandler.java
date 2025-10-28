@@ -28,7 +28,7 @@ public class RestHandler {
             return restTemplate.exchange(url, method, entity, responseType);
 
         } catch (HttpClientErrorException.Unauthorized e) {
-            System.err.println("⚠️ Session expired ");
+            System.err.println("⚠️ Unauthorized ");
             return ErrorSessionHandler.SessionExpired();
 
         } catch (HttpClientErrorException.BadRequest e) {
