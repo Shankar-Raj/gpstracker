@@ -1,6 +1,6 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.CustomResponse;
+import com.project.gpstracker.handlers.CustomResponseHandler;
 import com.project.gpstracker.service.EventService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class EventController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEvent(@PathVariable Long id) {
-        return ResponseEntity.ok(CustomResponse.of(EventService.getEvent(id)));
+        return ResponseEntity.ok(CustomResponseHandler.of(EventService.getEvent(id)));
     }
 
 }

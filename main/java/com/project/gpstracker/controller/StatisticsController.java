@@ -1,6 +1,6 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.CustomResponse;
+import com.project.gpstracker.handlers.CustomResponseHandler;
 import com.project.gpstracker.service.StatisticsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,6 @@ public class StatisticsController {
             from = today.atStartOfDay().toString() + "Z";
             to = today.atTime(23, 59, 59).toString() + "Z";
         }
-        return ResponseEntity.ok(CustomResponse.of(StatisticsService.getStatistics(from, to)));
+        return ResponseEntity.ok(CustomResponseHandler.of(StatisticsService.getStatistics(from, to)));
     }
 }

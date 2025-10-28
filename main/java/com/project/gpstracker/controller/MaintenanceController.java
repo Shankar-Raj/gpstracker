@@ -1,6 +1,6 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.CustomResponse;
+import com.project.gpstracker.handlers.CustomResponseHandler;
 import com.project.gpstracker.service.MaintenanceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,12 @@ public class MaintenanceController {
 
     @GetMapping("all")
     public ResponseEntity<?> getAllMaintenances() {
-        return ResponseEntity.ok(CustomResponse.of(MaintenanceService.getAllMaintenances()));
+        return ResponseEntity.ok(CustomResponseHandler.of(MaintenanceService.getAllMaintenances()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMaintenanceById(@PathVariable Long id) {
-        return ResponseEntity.ok(CustomResponse.of(MaintenanceService.getMaintenanceById(id)));
+        return ResponseEntity.ok(CustomResponseHandler.of(MaintenanceService.getMaintenanceById(id)));
     }
 
     @GetMapping("/{userId}/{deviceId}/{groupId}")
@@ -31,6 +31,6 @@ public class MaintenanceController {
             @PathVariable int groupId,
             @RequestParam (required = false, defaultValue = "false") boolean all,
             @RequestParam (required = false, defaultValue = "false") boolean refresh) {
-        return ResponseEntity.ok(CustomResponse.of(MaintenanceService.getMaintenances( all, userId, deviceId, groupId, refresh)));
+        return ResponseEntity.ok(CustomResponseHandler.of(MaintenanceService.getMaintenances( all, userId, deviceId, groupId, refresh)));
     }
 }

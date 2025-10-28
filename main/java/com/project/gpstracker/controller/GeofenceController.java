@@ -1,6 +1,6 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.CustomResponse;
+import com.project.gpstracker.handlers.CustomResponseHandler;
 import com.project.gpstracker.service.GeofenceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,12 @@ public class GeofenceController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllGeofence() {
-        return ResponseEntity.ok(CustomResponse.of(GeofenceService.getAllGeofence()));
+        return ResponseEntity.ok(CustomResponseHandler.of(GeofenceService.getAllGeofence()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getGeofenceById(@PathVariable Long id) {
-        return ResponseEntity.ok(CustomResponse.of(GeofenceService.getGeofenceById(id)));
+        return ResponseEntity.ok(CustomResponseHandler.of(GeofenceService.getGeofenceById(id)));
         
     }
 
@@ -32,6 +32,6 @@ public class GeofenceController {
             @PathVariable int groupId,
             @RequestParam (required = false, defaultValue = "false") boolean all,
             @RequestParam (required = false, defaultValue = "false") boolean refresh) {
-        return ResponseEntity.ok(CustomResponse.of(GeofenceService.getGeofence( all, userId, deviceId, groupId, refresh)));
+        return ResponseEntity.ok(CustomResponseHandler.of(GeofenceService.getGeofence( all, userId, deviceId, groupId, refresh)));
     }
 }

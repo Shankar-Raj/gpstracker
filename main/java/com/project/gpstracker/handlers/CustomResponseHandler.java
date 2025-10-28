@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 import java.util.HashMap;
 import java.util.Map;
 
-public record CustomResponse(Map<String, String> headers, Object body, String status) {
+public record CustomResponseHandler(Map<String, String> headers, Object body, String status) {
 
-    // Static factory method — create a formatted CustomResponse directly
-    public static CustomResponse of(ResponseEntity<?> responseEntity) {
+    // Static factory method — create a formatted CustomResponseHandler directly
+    public static CustomResponseHandler of(ResponseEntity<?> responseEntity) {
 
         // Pick only specific headers
         Map<String, String> selectedHeaders = new HashMap<>();
@@ -19,6 +19,6 @@ public record CustomResponse(Map<String, String> headers, Object body, String st
         String statusFormatted = responseEntity.getStatusCode().toString();
 
         // Return new combined response
-        return new CustomResponse(selectedHeaders, responseEntity.getBody(), statusFormatted);
+        return new CustomResponseHandler(selectedHeaders, responseEntity.getBody(), statusFormatted);
     }
 }

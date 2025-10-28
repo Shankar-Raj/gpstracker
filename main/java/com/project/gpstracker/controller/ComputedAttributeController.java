@@ -1,6 +1,6 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.CustomResponse;
+import com.project.gpstracker.handlers.CustomResponseHandler;
 import com.project.gpstracker.service.ComputedAttributeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,12 @@ public class ComputedAttributeController {
 
     @GetMapping("/all")
     public  ResponseEntity<?> getAllAttributes() {
-        return ResponseEntity.ok(CustomResponse.of(ComputedAttributeService.getAllAttributes()));
+        return ResponseEntity.ok(CustomResponseHandler.of(ComputedAttributeService.getAllAttributes()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAttributeById(@PathVariable Long id) {
-        return ResponseEntity.ok(CustomResponse.of(ComputedAttributeService.getAttributeById(id)));
+        return ResponseEntity.ok(CustomResponseHandler.of(ComputedAttributeService.getAttributeById(id)));
     }
 
     @GetMapping("/{ComputedAttributeId}/{deviceId}/{groupId}")
@@ -31,6 +31,6 @@ public class ComputedAttributeController {
             @PathVariable int groupId,
             @RequestParam (required = false, defaultValue = "true") boolean all,
             @RequestParam (required = false, defaultValue = "true") boolean refresh) {
-        return ResponseEntity.ok(CustomResponse.of(ComputedAttributeService.getAttributes( all, ComputedAttributeId, deviceId, groupId, refresh)));
+        return ResponseEntity.ok(CustomResponseHandler.of(ComputedAttributeService.getAttributes( all, ComputedAttributeId, deviceId, groupId, refresh)));
     }
 }

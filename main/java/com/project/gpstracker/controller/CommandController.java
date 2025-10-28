@@ -1,6 +1,6 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.handlers.CustomResponse;
+import com.project.gpstracker.handlers.CustomResponseHandler;
 import com.project.gpstracker.service.CommandService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,12 @@ public class CommandController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllCommands () {
-        return ResponseEntity.ok(CustomResponse.of(CommandService.getAllCommands()));
+        return ResponseEntity.ok(CustomResponseHandler.of(CommandService.getAllCommands()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCommandById(@PathVariable int id) {
-        return ResponseEntity.ok(CustomResponse.of(CommandService.getCommandById(id)));
+        return ResponseEntity.ok(CustomResponseHandler.of(CommandService.getCommandById(id)));
     }
 
     @GetMapping("/{userId}/{deviceId}/{groupId}")
@@ -31,6 +31,6 @@ public class CommandController {
             @PathVariable int groupId,
             @RequestParam (required = false, defaultValue = "false") boolean all,
             @RequestParam (required = false, defaultValue = "false") boolean refresh) {
-        return ResponseEntity.ok(CustomResponse.of(CommandService.getCommands( all, userId, deviceId, groupId, refresh)));
+        return ResponseEntity.ok(CustomResponseHandler.of(CommandService.getCommands( all, userId, deviceId, groupId, refresh)));
     }
 }

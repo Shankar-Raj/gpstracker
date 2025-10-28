@@ -27,7 +27,7 @@ public class SessionService {
             synchronized (RestHandler.getLock()) { // Ensures only one thread modifies sessionCookie at a time
                 sessionCookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
             }
-            System.out.println("✅ Logged in successfully. SessionCookie : " + sessionCookie);
+            System.out.println("✅ Logged in successfully");
         }
 
         return response;
