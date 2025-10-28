@@ -57,6 +57,11 @@ public class RestHandler {
         HttpHeaders headers = new HttpHeaders();
         if (urlEncoded) {
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            synchronized (LOCK) {
+                if (SessionService.getSessionCookie() != null) {
+                    headers.set("Cookie", SessionService.getSessionCookie());
+                }
+            }
         } else {
             headers.setContentType(MediaType.APPLICATION_JSON);
             synchronized (LOCK) {
