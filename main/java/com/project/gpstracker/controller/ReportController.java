@@ -1,6 +1,6 @@
 package com.project.gpstracker.controller;
 
-import com.project.gpstracker.model.reports.*;
+import com.project.gpstracker.handlers.CustomResponse;
 import com.project.gpstracker.service.ReportServices.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class ReportController {
             to = today.atTime(23, 59, 59).toString() + "Z";
         }
 
-        return routeReportService.getReport(deviceId, groupId, from, to);
+        return ResponseEntity.ok(CustomResponse.of(routeReportService.getReport(deviceId, groupId, from, to)));
     }
 
     @GetMapping("/trips/{deviceId}/{groupId}")
@@ -58,7 +58,7 @@ public class ReportController {
             to = today.atTime(23, 59, 59).toString() + "Z";
         }
 
-        return tripReportService.getReport(deviceId, groupId, from, to);
+        return ResponseEntity.ok(CustomResponse.of(tripReportService.getReport(deviceId, groupId, from, to)));
     }
 
     @GetMapping("/stops/{deviceId}/{groupId}")
@@ -74,7 +74,7 @@ public class ReportController {
             to = today.atTime(23, 59, 59).toString() + "Z";
         }
 
-        return stopReportService.getReport(deviceId, groupId, from, to);
+        return ResponseEntity.ok(CustomResponse.of(stopReportService.getReport(deviceId, groupId, from, to)));
     }
 
     @GetMapping("/events/{deviceId}/{groupId}")
@@ -90,7 +90,7 @@ public class ReportController {
             to = today.atTime(23, 59, 59).toString() + "Z";
         }
 
-        return eventReportServices.getReport(deviceId, groupId, from, to);
+        return ResponseEntity.ok(CustomResponse.of(eventReportServices.getReport(deviceId, groupId, from, to)));
     }
 
     @GetMapping("/summary/{deviceId}/{groupId}")
@@ -106,7 +106,7 @@ public class ReportController {
             to = today.atTime(23, 59, 59).toString() + "Z";
         }
 
-        return tripSummaryReportService.getReport(deviceId, groupId, from, to);
+        return ResponseEntity.ok(CustomResponse.of(tripSummaryReportService.getReport(deviceId, groupId, from, to)));
     }
 
 }

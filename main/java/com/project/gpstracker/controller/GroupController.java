@@ -1,5 +1,6 @@
 package com.project.gpstracker.controller;
 
+import com.project.gpstracker.handlers.CustomResponse;
 import com.project.gpstracker.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +16,18 @@ public class GroupController {
 
     @GetMapping("all")
     public ResponseEntity<?> getAllGroups() {
-
-        ResponseEntity<?> Groups = GroupService.getAllGroups();
-        return ResponseEntity.ok(Groups);
+        return ResponseEntity.ok(CustomResponse.of(GroupService.getAllGroups()));
     }
 
     @GetMapping("/{Id}")
     public ResponseEntity<?> getGroupById(@PathVariable int Id) {
-
-        ResponseEntity<?> Group = GroupService.getGroupById(Id);
-        return ResponseEntity.ok(Group);
+        return ResponseEntity.ok(CustomResponse.of(GroupService.getGroupById(Id)));
     }
 
     @GetMapping
     public ResponseEntity<?> getGroups(
             @RequestParam int userId,
             @RequestParam (required = false, defaultValue = "false") boolean all) {
-
-        ResponseEntity<?> Groups = GroupService.getGroups( all, userId );
-        return ResponseEntity.ok(Groups);
+        return ResponseEntity.ok(CustomResponse.of(GroupService.getGroups(all, userId)));
     }
 }

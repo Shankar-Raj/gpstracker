@@ -1,5 +1,6 @@
 package com.project.gpstracker.controller;
 
+import com.project.gpstracker.handlers.CustomResponse;
 import com.project.gpstracker.service.DriverService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +16,12 @@ public class DriverController {
 
     @GetMapping("all")
     public ResponseEntity<?> getAllDrivers() {
-
-        ResponseEntity<?> Drivers = DriverService.getDrivers();
-        return ResponseEntity.ok(Drivers);
+        return ResponseEntity.ok(CustomResponse.of(DriverService.getDrivers()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getDriverById(@PathVariable Long id) {
-
-        ResponseEntity<?> Drivers = DriverService.getDriverById(id);
-        return ResponseEntity.ok(Drivers);
+        return ResponseEntity.ok(CustomResponse.of(DriverService.getDriverById(id)));
     }
 
     @GetMapping("/{userId}/{deviceId}/{groupId}")
@@ -34,9 +31,7 @@ public class DriverController {
             @PathVariable int groupId,
             @RequestParam (required = false, defaultValue = "false") boolean all,
             @RequestParam (required = false, defaultValue = "false") boolean refresh) {
-
-        ResponseEntity<?> Drivers = DriverService.getDriver( all, userId, deviceId, groupId, refresh);
-        return ResponseEntity.ok(Drivers);
+        return ResponseEntity.ok(CustomResponse.of(DriverService.getDriver( all, userId, deviceId, groupId, refresh)));
         
     }
 }

@@ -1,5 +1,6 @@
 package com.project.gpstracker.controller;
 
+import com.project.gpstracker.handlers.CustomResponse;
 import com.project.gpstracker.service.NotificationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,28 +16,21 @@ public class NotificationController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllNotifications() {
-
-        ResponseEntity<?> Notifications = NotificationService.getAllNotifications();
-        return ResponseEntity.ok(Notifications);
+        return ResponseEntity.ok(CustomResponse.of(NotificationService.getAllNotifications()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getNotificationById(@PathVariable Long id) {
-
-        ResponseEntity<?> Notifications = NotificationService.getNotificationById(id);
-        return ResponseEntity.ok(Notifications);
+        return ResponseEntity.ok(CustomResponse.of(NotificationService.getNotificationById(id)));
     }
 
     @GetMapping("/{userId}/{deviceId}/{groupId}")
     public ResponseEntity<?> getNotifications(
-
             @PathVariable int userId,
             @PathVariable int deviceId,
             @PathVariable int groupId,
             @RequestParam (required = false, defaultValue = "false") boolean all,
             @RequestParam (required = false, defaultValue = "false") boolean refresh) {
-
-        ResponseEntity<?> Notifications = NotificationService.getNotifications( all, userId, deviceId, groupId, refresh);
-        return ResponseEntity.ok(Notifications);
+        return ResponseEntity.ok(CustomResponse.of(NotificationService.getNotifications( all, userId, deviceId, groupId, refresh)));
     }
 }

@@ -1,5 +1,6 @@
 package com.project.gpstracker.controller;
 
+import com.project.gpstracker.handlers.CustomResponse;
 import com.project.gpstracker.service.CalendarService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +16,19 @@ public class CalendarController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getCalendars() {
-        ResponseEntity<?> Calendars = CalendarService.getCalendars();
-        return ResponseEntity.ok(Calendars);
+        return ResponseEntity.ok(CustomResponse.of(CalendarService.getCalendars()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCalendar(@PathVariable int id ) {
-        ResponseEntity<?> Calendars = CalendarService.getCalendarById(id);
-        return ResponseEntity.ok(Calendars);
+        return ResponseEntity.ok(CustomResponse.of(CalendarService.getCalendarById(id)));
     }
 
     @GetMapping
     public ResponseEntity<?> getCalendars(
             @RequestParam int userId,
             @RequestParam (required = false, defaultValue = "false") boolean all) {
-
-        ResponseEntity<?> Calendars = CalendarService.getCalendar( all, userId);
-        return ResponseEntity.ok(Calendars);
+        return ResponseEntity.ok(CustomResponse.of(CalendarService.getCalendar( all, userId)));
         
     }
 }

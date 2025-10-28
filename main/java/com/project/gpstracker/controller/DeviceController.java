@@ -1,5 +1,6 @@
 package com.project.gpstracker.controller;
 
+import com.project.gpstracker.handlers.CustomResponse;
 import com.project.gpstracker.service.DeviceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,12 @@ public class DeviceController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllDevices() {
-        return ResponseEntity.ok(DeviceService.getAllDevices());
+        return ResponseEntity.ok(CustomResponse.of(DeviceService.getAllDevices()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getDeviceById(@PathVariable Long id) {
-        ResponseEntity<?> Devices = DeviceService.getDeviceById(id);
-        return ResponseEntity.ok(Devices);
+        return ResponseEntity.ok(CustomResponse.of(DeviceService.getDeviceById(id)));
     }
 
     @GetMapping("/{userId}/{Id}/{uniqueId}")
@@ -30,8 +30,6 @@ public class DeviceController {
             @PathVariable int Id,
             @PathVariable int uniqueId,
             @RequestParam (required = false, defaultValue = "false") boolean all) {
-
-        ResponseEntity<?> Devices = DeviceService.getDevice(all, userId, Id, uniqueId);
-        return ResponseEntity.ok(Devices);
+        return ResponseEntity.ok(CustomResponse.of(DeviceService.getDevice(all, userId, Id, uniqueId)));
     }
 }

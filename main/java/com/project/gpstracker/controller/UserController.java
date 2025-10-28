@@ -1,5 +1,6 @@
 package com.project.gpstracker.controller;
 
+import com.project.gpstracker.handlers.CustomResponse;
 import com.project.gpstracker.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,12 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
-        ResponseEntity<?> Users = UserService.getUsers();
-        return ResponseEntity.ok(Users);
+        return ResponseEntity.ok(CustomResponse.of(UserService.getUsers()));
     }
 
     @GetMapping("/{Id}")
     public ResponseEntity<?> getUser(@PathVariable int Id) {
-        ResponseEntity<?> User = UserService.getUser(Id);
-        return ResponseEntity.ok(User);
+        return ResponseEntity.ok(CustomResponse.of(UserService.getUser(Id)));
     }
 
 }

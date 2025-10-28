@@ -15,9 +15,7 @@ public class ServerInfoController {
 
     @GetMapping()
     public ResponseEntity<?> getServerDetails() {
-
-        ResponseEntity<?> ServerInfos = ServerInfoService.getServerDetails();
-        return ResponseEntity.ok(ServerInfos);
+        return ResponseEntity.ok(ServerInfoService.getServerDetails());
     }
 
 }
